@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Salary Predictor</title>
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray: #777;
+      --light-gray: #e5e5e5;
+    }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--black);
+      font-family: "IBM Plex Sans", "Helvetica Neue", "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px 48px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--light-gray);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: -0.5px;
+    }
+
+    .lead {
+      margin: 8px 0 0;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .cta {
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .section-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .list {
+      border: 1px solid var(--light-gray);
+      border-radius: 0;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-title {
+      font-weight: 600;
+    }
+
+    .item-meta {
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    .salary {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .empty {
+      color: var(--gray);
+      font-size: 14px;
+      border: 1px dashed var(--light-gray);
+      padding: 16px;
+    }
+
+    footer {
+      margin-top: 28px;
+      color: var(--gray);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1>Salary Predictor</h1>
+        <p class="lead">Home dashboard with prediction history.</p>
+      </div>
+      <a class="cta" href="{% url 'predict_salary' %}">Go to Predict</a>
+    </div>
+
+    <div class="section-title">Previous Predictions</div>
+
+    {% if predictions %}
+      <div class="list">
+        {% for prediction in predictions %}
+          <div class="item">
+            <div>
+              <div class="item-title">{{ prediction.title }}</div>
+              <div class="item-meta">
+                {{ prediction.created_at|date:"Y-m-d H:i" }}
+              </div>
+            </div>
+            <div class="salary">{{ prediction.predicted_salary|floatformat:2 }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">No predictions yet. Create one from the Predict page.</div>
+    {% endif %}
+
+    <footer>
+      Black, white, and gray only. Minimal UI.
+    </footer>
+  </div>
+</body>
+</html>

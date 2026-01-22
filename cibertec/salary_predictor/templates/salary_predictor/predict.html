@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Predict Salary</title>
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray: #777;
+      --light-gray: #e5e5e5;
+    }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--black);
+      font-family: "IBM Plex Sans", "Helvetica Neue", "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px 48px;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--light-gray);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: -0.5px;
+    }
+
+    .lead {
+      margin: 8px 0 0;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 12px;
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      padding: 8px 12px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 6px;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    textarea,
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--light-gray);
+      padding: 12px;
+      font-size: 14px;
+      background: var(--white);
+      color: var(--black);
+      box-sizing: border-box;
+    }
+
+    .errors {
+      color: var(--gray);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    button {
+      margin-top: 20px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 12px 18px;
+      font-size: 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .card {
+      margin-top: 24px;
+      padding: 16px;
+      border: 1px solid var(--light-gray);
+      background: var(--white);
+    }
+
+    .prediction {
+      font-size: 24px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .note {
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    footer {
+      margin-top: 28px;
+      color: var(--gray);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Predict Salary</h1>
+      <p class="lead">Minimal black, white, and gray UI for salary prediction.</p>
+      <a class="cta" href="/">Back to Home</a>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <label for="{{ form.description.id_for_label }}">Job Description</label>
+      {{ form.description }}
+      {% if form.description.errors %}
+        <div class="errors">{{ form.description.errors }}</div>
+      {% endif %}
+
+      <label for="{{ form.skills_desc.id_for_label }}">Skills Description</label>
+      {{ form.skills_desc }}
+      {% if form.skills_desc.errors %}
+        <div class="errors">{{ form.skills_desc.errors }}</div>
+      {% endif %}
+
+      <label for="{{ form.title.id_for_label }}">Job Title</label>
+      {{ form.title }}
+      {% if form.title.errors %}
+        <div class="errors">{{ form.title.errors }}</div>
+      {% endif %}
+
+      {% if error %}
+        <div class="card">
+          <div class="note">{{ error }}</div>
+        </div>
+      {% endif %}
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction is not None %}
+      <div class="card">
+        <div class="note">Predicted salary</div>
+        <div class="prediction">{{ prediction|floatformat:2 }}</div>
+      </div>
+    {% endif %}
+
+    <footer>
+      Black, white, and gray only. No extra styling or distractions.
+    </footer>
+  </div>
+</body>
+</html>

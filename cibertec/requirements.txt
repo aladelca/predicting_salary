@@ -1,0 +1,7 @@
+Django>=5.2
+pandas
+numpy
+nltk
+scikit-learn
+catboost
+joblib
